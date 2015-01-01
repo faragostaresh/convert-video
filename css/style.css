@@ -1,0 +1,17 @@
+#mainHeader {
+	background: #f5f5f5;
+	border-bottom: 1px solid #ccc;
+	padding: 10px;
+}
+
+#mainSection {
+	padding: 100px 0 100px 0;
+	min-height: 300px;
+}
+
+#mainFooter {
+	background: #f5f5f5;
+	border-top: 1px solid #ccc;
+	padding: 10px;
+	text-align: center;
+}
