@@ -48,8 +48,14 @@ class Config
 	public static function setConvertConfig()
 	{
 		$config = array(
-			'size_medium'  => '640x480',
-			'size_low'     => '320x240',
+			'size_medium'                   => '320x240',
+			'size_low'                      => '320x240',
+			'targetBitrate_medium'          => '360k',
+			'targetBitrate_low'             => '180k',
+			'videoBitrateTolerance_medium'  => '416k',
+			'videoBitrateTolerance_low'     => '208k',
+			'audioBitRate_medium'           => '64k',
+			'audioBitRate_low'              => '32k',
 		);
 
 		return $config;

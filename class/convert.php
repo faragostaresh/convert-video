@@ -97,24 +97,48 @@ EOT;
         switch ($quality) {
         	case 'medium':
         	    $name = sprintf('%s-medium.mp4', $name);
-        		$size =  Config::getConvertConfig('size_medium');
+        		$size = Config::getConvertConfig('size_medium');
+                $targetBitrate = Config::getConvertConfig('targetBitrate_medium');
+                $videoBitrateTolerance = Config::getConvertConfig('videoBitrateTolerance_medium');
+                $audioBitRate = Config::getConvertConfig('audioBitRate_medium');
         		break;
         	
         	case 'low':
         	    $name = sprintf('%s-low.mp4', $name);
         		$size = Config::getConvertConfig('size_low');
+                $targetBitrate = Config::getConvertConfig('targetBitrate_low');
+                $videoBitrateTolerance = Config::getConvertConfig('videoBitrateTolerance_low');
+                $audioBitRate = Config::getConvertConfig('audioBitRate_low');
         		break;
         }
         // Set file path
         $input = sprintf('%s/%s', Config::getHost('sourcePath'), $video);
         $output = sprintf('%s/%s', Config::getHost('sourcePath'), $name);
         // Set command
-        $command = 'ffmpeg -i %s -s %s -acodec libfaac -vcodec libx264 -vpre max -r 30 -maxrate 1000 -ab 128000 -ar 44000 -f mp4 %s';
+        //$command = 'ffmpeg -i %s -s %s -acodec libfaac -vcodec libx264 -vpre max -r 30 -maxrate 1000 -ab 128000 -ar 44000 -f mp4 %s';
+        //$command = "ffmpeg -i %s -s %s -aspect 16:9 -r 25 -b 360k -bt 416k -vcodec libx264 -pass 1 -vpre fastfirstpass -an %s && ffmpeg -y -i %s -s %s -aspect 16:9 -r 25 -b 360k -bt 416k -vcodec libx264 -pass 2 -vpre hq -acodec libfaac -ac 1 -ar 22050 -ab 64k %s";
+        /* $command = "ffmpeg -i %s -s 320x240 -aspect 16:9 -r 25 -b %s -bt %s -vcodec libx264 -pass 1 -vpre fastfirstpass -an %s && ffmpeg -y -i %s -s 320x240 -aspect 16:9 -r 25 -b %s -bt %s -vcodec libx264 -pass 2 -vpre hq -acodec libfaac -ac 1 -ar 22050 -ab %s %s";
         $command = sprintf(
         	$command, 
         	$input,
-        	$size,
-        	$output
+            $aaa1,
+            $aaa2,
+        	$output,
+            $input,
+            $aaa1,
+            $aaa2,
+            $aaa3,
+            $output
+        ); */
+        $command = "ffmpeg -i %s -s %s -aspect 16:9 -r 25 -b %s -bt %s -vcodec libx264 -pass 2 -vpre fastfirstpass -acodec libfaac -ac 1 -ar 22050 -ab %s %s";
+        $command = sprintf(
+            $command, 
+            $input,
+            $size,
+            $targetBitrate,
+            $videoBitrateTolerance,
+            $audioBitRate,
+            $output
         );
         // do convert
 		exec($command);
